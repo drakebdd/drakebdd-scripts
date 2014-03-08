@@ -41,8 +41,7 @@
 	chestrows=0
 	inventorycolumn=0
 	inventoryrow=0
-	c=0		; multifunctional counter
-			;сжечь ересь!!!
+	c=0		
 
 
 ;===============================================================================================
@@ -215,7 +214,38 @@ F3::	; Эта кнопка переназначается на любую дру
 
 return
 
+;==========
+; Из ящика 
+;==========
 
+!F3::	; Эта кнопка переназначается на любую другую
+	chestcolumns=0
+	chestrows=0
+	inventorycolumn=0
+	inventoryrow=0
+	с=0
+	while chestcolumns<3
+	{
+		chestrows=0
+		while chestrows<4 
+		{
+			MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  ,  ,  , d
+			Sleep clickdelay
+			MouseClick, L, xhelmet+225+cellwidth*inventorycolumn , yhelmet+cellwidth*inventoryrow ,  ,  , u
+			Sleep 10
+
+			inventorycolumn++
+			if inventorycolumn=6
+			{
+				inventorycolumn=0
+				inventoryrow++
+			}
+			chestrows++
+		}
+		chestcolumns++
+	}
+
+return
 ;==============================================================
 
 ;==========
@@ -414,7 +444,25 @@ F8::
     return
 ;================================================================
 ; Переключение бега
-CapsLock::
+#IfWinActive PlayRust	
+MButton::
+    IfWinActive, PlayRust
+    {
+        SendInput, {LShift Down}
+        SendInput, {w Down}
+        return
+    }
+return
+ 
+MButton Up::
+    IfWinActive, PlayRust
+    {
+        SendInput, {LShift Up}
+        SendInput, {w Up}
+        return
+    }
+return
+q::
 if toggle1=1
 {
 	SendInput, {LShift Down}
@@ -433,7 +481,7 @@ return
 ;=================================================================
 ; ебанутая моргалка фонариком или прицелом
 ; я имею в виду, переназначение колесика мыши
-#IfWinActive PlayRust
+#IfWinActive PlayRust	
 ~*WheelUp::
  
     Send,{F} 
