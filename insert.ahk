@@ -388,15 +388,15 @@ F8::
 CapsLock::
 if toggle1=1
 {
-        SendInput, {LShift Down}
-        SendInput, {w Down}
-        toggle1=0
+	SendInput, {LShift Down}
+	SendInput, {w Down}
+	toggle1=0
 }
 else
 {        
-        SendInput, {LShift Up}
-        SendInput, {w Up}
-        toggle1=1
+	SendInput, {LShift Up}
+	SendInput, {w Up}
+	toggle1=1
 }
 return
  
