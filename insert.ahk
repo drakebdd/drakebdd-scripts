@@ -2,7 +2,7 @@
 
 ;========================================================================
 ;07.03.2014
-;надо бы разделить скрипты для раст и остальные
+;надо бы разделить скрипты для раст и остальные. с другой стороны, больше одновременных скриптов не айс
 
 
 
@@ -23,12 +23,15 @@
 					;предметов. если не цепляет надо увеличить
 	enterdelay=150	;задержки консоли и чата
 	f1delay=300
+	SetDefaultMouseSpeed,0	;скорость движения мышки
+							; 0 инстант, 1 быстро, 2 медленно.
 
 ;Constants
-	cellwidth := 75	;вроде не зависит от разрешения       
+	cellwidth := 75	;ширина клеточек инвентори
+					;вроде не зависит от разрешения       
 
 ;Calculable
-	x1 := xhelmet+450+225	;прочистить в патче эту ересь
+
 
 
 
@@ -36,6 +39,8 @@
 	toggle1=1
 	chestcolumns=0
 	chestrows=0
+	inventorycolumn=0
+	inventoryrow=0
 	c=0		; multifunctional counter
 			;сжечь ересь!!!
 
@@ -182,33 +187,31 @@ SetTitleMatchMode, 2	; Make search title in #IfWinActive more flexible
 ;==========
 
 F3::	; Эта кнопка переназначается на любую другую
-chestcolumns=0
-chestrows=0
-с=0
-while chestcolumns<3
-{
-chestrows=0
-while chestrows<4 
-{
-if c<6
-{
-MouseClick, L, x1+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
-Sleep clickdelay
-MouseClick, L, x1-450+cellwidth*c , yhelmet+150+cellwidth*1 , 1 , 1 , u
-Sleep 10
-}
-else
-{
-MouseClick, L, x1+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
-Sleep clickdelay
-MouseClick, L, x1-450+cellwidth*(c-6) , yhelmet+150+cellwidth*2 , 1 , 1 , u
-Sleep 10
-}
-c++
-chestrows++
-}
-chestcolumns++
-}
+	chestcolumns=0
+	chestrows=0
+	inventorycolumn=0
+	inventoryrow=3
+	с=0
+	while chestcolumns<3
+	{
+		chestrows=0
+		while chestrows<4 
+		{
+			MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  ,  ,  , d
+			Sleep clickdelay
+			MouseClick, L, xhelmet+225+cellwidth*inventorycolumn , yhelmet+cellwidth*inventoryrow ,  ,  , u
+			Sleep 10
+
+			inventorycolumn++
+			if inventorycolumn=6
+			{
+				inventorycolumn=0
+				inventoryrow++
+			}
+			chestrows++
+		}
+		chestcolumns++
+	}
 
 return
 
@@ -220,33 +223,31 @@ return
 ;==========
 
 F4::	; Эта кнопка переназначается на любую другую
-chestcolumns=0
-chestrows=0
-с=0
-while chestcolumns<3
-{
-chestrows=0
-while chestrows<4 
-{
-if c<6
-{
-MouseClick, L,  x1-450+cellwidth*c , yhelmet+150+cellwidth*1  , 1 , 1 , d
-Sleep clickdelay
-MouseClick, L, x1+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows, 1 , 1 , u
-Sleep 10
-}
-else
-{
-MouseClick, L, x1-450+cellwidth*(c-6) , yhelmet+150+cellwidth*2 , 1 , 1 , d
-Sleep clickdelay
-MouseClick, L, x1+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
-Sleep 10
-}
-c++
-chestrows++
-}
-chestcolumns++
-}
+	chestcolumns=0
+	chestrows=0
+	inventorycolumn=0
+	inventoryrow=3
+	с=0
+	while chestcolumns<3
+	{
+		chestrows=0
+		while chestrows<4 
+		{
+			MouseClick, L,xhelmet+225+cellwidth*inventorycolumn , yhelmet+cellwidth*inventoryrow ,  ,  , d
+			Sleep clickdelay
+			MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows   ,  ,  , u
+			Sleep 10
+
+			inventorycolumn++
+			if inventorycolumn=6
+			{
+				inventorycolumn=0
+				inventoryrow++
+			}
+			chestrows++
+		}
+		chestcolumns++
+	}
 
 return
 
@@ -270,23 +271,23 @@ while chestrows<4
 if c<4
 {
 
-MouseClick, L, x1+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
+MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
 Sleep clickdelay
-MouseClick, L, x1-450-225 , yhelmet+cellwidth*c , 1 , 1 , u
+MouseClick, L, xhelmet , yhelmet+cellwidth*c , 1 , 1 , u
 Sleep 10
 }
 if (c>3 and c<10)
 {
-MouseClick, L, x1+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
+MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
 Sleep clickdelay
-MouseClick, L, x1-450+cellwidth*(c-4) , yhelmet+400 , 1 , 1 , u
+MouseClick, L, xhelmet+225+cellwidth*(c-4) , yhelmet+400 , 1 , 1 , u
 Sleep 10
 }
 if (c>9)
 {
-MouseClick, L, x1+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
+MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
 Sleep clickdelay
-MouseClick, L, x1-450+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns , 1 , 1 , u
+MouseClick, L, xhelmet+225+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns , 1 , 1 , u
 Sleep 10
 }
 c++
@@ -294,7 +295,7 @@ chestrows++
 }
 chestcolumns++
 }
-
+с=0
 return
 
 
@@ -313,23 +314,23 @@ while chestrows<4
 {
 if c<4
 {
-MouseClick, L, x1-450-225 , yhelmet+cellwidth*c , 1 , 1 , d
+MouseClick, L, xhelmet , yhelmet+cellwidth*c , 1 , 1 , d
 Sleep clickdelay
-MouseClick, L, x1+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
+MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
 Sleep 10
 }
 if (c>3 and c<10)
 {
-MouseClick, L, x1-450+cellwidth*(c-4) , yhelmet+400   , 1 , 1 , d
+MouseClick, L, xhelmet+225+cellwidth*(c-4) , yhelmet+400   , 1 , 1 , d
 Sleep clickdelay
-MouseClick, L,  x1+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
+MouseClick, L,  xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
 Sleep 10
 }
 if (c>9)
 {
-MouseClick, L,x1-450+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns   , 1 , 1 , d
+MouseClick, L,xhelmet+225+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns   , 1 , 1 , d
 Sleep clickdelay
-MouseClick, L,  x1+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows, 1 , 1 , u
+MouseClick, L,  xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows, 1 , 1 , u
 Sleep 10
 }
 c++
@@ -337,7 +338,7 @@ chestrows++
 }
 chestcolumns++
 }
-
+с=0
 return
 
 ;===================================================================
