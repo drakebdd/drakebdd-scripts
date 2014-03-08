@@ -387,5 +387,10 @@ return
     Send,{G}
  
     return
+Numpad5::
+DllCall("mouse_event", uint, 1, int, 0, int,35)
+Click
+return
+
 #IfWinActive
                                                                                                             
