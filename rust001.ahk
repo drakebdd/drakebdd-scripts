@@ -11,13 +11,13 @@
 
 
 ;========================
-; Directives
+;1 Directives
 
 	#SingleInstance Force
 	#Persistent
 
 ;========================
-;Var
+;2 Var
 ;========================
 ;Settings
 	xhelmet=575		;координаты шлема, зависят от разрешения
@@ -51,7 +51,7 @@
 
 ;===============================================================================================
 ;===============================================================================================
-;Game binds
+;3 Game binds
 ;===============================================================================================
 ;===============================================================================================
 
@@ -60,7 +60,7 @@
 SetTitleMatchMode, 2	; Make search title in #IfWinActive more flexible
 
 ;=================================================================================
-; Перетаскивалки вещей из ящика(3 на 4 клеток) в инвентори(последние 2 на 6 клеток) и обратно
+; 3.1 Перетаскивалки вещей из ящика(3 на 4 клеток) в инвентори(последние 2 на 6 клеток) и обратно
 ; У всех кнопок перетаскивания есть одна глобальная настройка - координаты шлема. ее нужно узнать 
 ; шпионом или попросить у меня и забить в переменные xhelmet  yhelmet в самом верху скрипта
 ;===========================
@@ -177,42 +177,42 @@ return
 
 F5::
 
-chestcolumns=0
-chestrows=0
-c=0
-while chestcolumns<3
-{
-chestrows=0
-while chestrows<4 
-{
-if c<4
-{
+	chestcolumns=0
+	chestrows=0
+	c=0
+	while chestcolumns<3
+	{
+		chestrows=0
+		while chestrows<4 
+		{
+			if c<4
+			{
 
-MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
-Sleep clickdelay
-MouseClick, L, xhelmet , yhelmet+cellwidth*c , 1 , 1 , u
-Sleep 10
-}
-if (c>3 and c<10)
-{
-MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
-Sleep clickdelay
-MouseClick, L, xhelmet+225+cellwidth*(c-4) , yhelmet+400 , 1 , 1 , u
-Sleep 10
-}
-if (c>9)
-{
-MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
-Sleep clickdelay
-MouseClick, L, xhelmet+225+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns , 1 , 1 , u
-Sleep 10
-}
-c++
-chestrows++
-}
-chestcolumns++
-}
-с=0
+				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L, xhelmet , yhelmet+cellwidth*c , 1 , 1 , u
+				Sleep 10
+			}
+			if (c>3 and c<10)
+			{
+				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L, xhelmet+225+cellwidth*(c-4) , yhelmet+400 , 1 , 1 , u
+				Sleep 10
+			}
+			if (c>9)
+			{
+				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L, xhelmet+225+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns , 1 , 1 , u
+				Sleep 10
+			}
+			c++
+			chestrows++
+		}
+		chestcolumns++
+	}
+	с=0
 return
 
 
@@ -259,7 +259,7 @@ chestcolumns++
 return
 
 ;===================================================================
-;А теперь чудесные клавиатурные скрипты
+;3.2 А теперь чудесные клавиатурные скрипты
 ;которые настукивают то что нам настукивать лень
 
 
