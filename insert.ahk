@@ -21,6 +21,8 @@
 	yhelmet=550		;замутить табличку в патче
 	clickdelay=225	;задержка мыши в мс при перетаскивании 
 					;предметов. если не цепляет надо увеличить
+	enterdelay=150	;задержки консоли и чата
+	f1delay=300
 
 ;Constants
 	cellwidth := 75	;вроде не зависит от разрешения       
@@ -35,7 +37,7 @@
 	chestcolumns=0
 	chestrows=0
 	c=0		; multifunctional counter
-
+			;сжечь ересь!!!
 
 
 ;===============================================================================================
@@ -162,7 +164,7 @@ return
 ;===============================================================================================
 
 
-
+;директивы
  
 SetTitleMatchMode, 2	; Make search title in #IfWinActive more flexible
 
@@ -350,26 +352,52 @@ return
 !F11::		;спрячьте от себя подальше, для меня это альт+ф11
     Send,{F1} 
     SendInput suicide
-    Sleep, 300
+    Sleep, f1delay
     Send,{Enter}
-	Sleep, 300
+	Sleep, f1delay
 	Send,{F1}
 return
 
 F2::
 	Send,{Enter} 
-	Sleep, 150
+	Sleep, enterdelay
 	SendInput /location
-	Sleep, 150
+	Sleep, enterdelay
 	Send,{Enter}
+return
+
++F2:: ; добавлю ка я на шифт шоудемедж а на альт ремув
+	Send,{Enter} 
+	Sleep, enterdelay 
+	SendInput /showdamage
+	Sleep, enterdelay
+	Send,{Enter}
+
+return
+
+!F2::
+	Send,{Enter} 
+	Sleep, enterdelay
+	SendInput /remove
+	Sleep, enterdelay
+	Send,{Enter}
+return
+; а на альтшифт шоу май демедж
++!F2:: ; добавлю ка я на шифт шоудемедж а на альт ремув
+	Send,{Enter} 
+	Sleep, enterdelay 
+	SendInput /showmydamage
+	Sleep, enterdelay
+	Send,{Enter}
+
 return
 
 F7::
  
     Send,{Enter} 
-	Sleep, 150
+	Sleep, enterdelay
     SendInput /tpa Troyan
-    Sleep, 150
+    Sleep, enterdelay
     Send,{Enter}
  
     return
@@ -377,9 +405,9 @@ F7::
 F8::
  
     Send,{Enter} 
-	Sleep, 150
+	Sleep, enterdelay
     SendInput /tpaccept
-    Sleep, 150
+    Sleep, enterdelay
     Send,{Enter}
  
     return
