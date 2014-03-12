@@ -387,9 +387,26 @@ return
     Send,{G}
  
     return
+
+; антиотдача
+antirecoil=35
+NumpadAdd::
+antirecoil+=5
+SplashTextOn, ,  , %antirecoil%
+sleep 150
+SplashTextOff
+return
+NumpadSub::
+antirecoil-=5
+SplashTextOn, ,  , %antirecoil%
+sleep 150
+SplashTextOff
+return
 Numpad5::
-DllCall("mouse_event", uint, 1, int, 0, int,35)
+
+DllCall("mouse_event", uint, 1, int, 0, int,antirecoil)
 Click
+
 return
 
 #IfWinActive
