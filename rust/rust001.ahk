@@ -1,8 +1,9 @@
 ﻿;drakebd-scripts-rust
 ;v001
 
-;========================================================================
+;===============================================================================================
 
+;13.03.2014 прикручиваю нормальную автоотдачу
 ;08.03.2014 А я всетаки введу разделение и версии. гитхаб всетаки. и ридми напишу.
 ;07.03.2014
 ;надо бы разделить скрипты для раст и остальные. с другой стороны, больше одновременных скриптов не айс
@@ -10,16 +11,17 @@
 
 
 
-;========================
+;===============================================================================================
 ;1 Directives
 
 	#SingleInstance Force
 	#Persistent
 
-;========================
+;===============================================================================================
 ;2 Var
-;========================
+;===============================================================================================
 ;Settings
+	
 	xhelmet=575		;координаты шлема, зависят от разрешения
 	yhelmet=550		;замутить табличку в патче
 	clickdelay=225	;задержка мыши в мс при перетаскивании 
@@ -44,11 +46,184 @@
 	chestrows=0
 	inventorycolumn=0
 	inventoryrow=0
-	c=0		
+	c=0	
+	hotkey1reloadcounter=0	
+	antirecoil=0
+	weaproster=-1
+	itisnotweapon=0
+	rostermode=0
+	lasthotkey=1
+	
+;vars
+
+	currentantirecoil=230
+	currentantirecoilzoomed=420
+	currentfirerate=40
+	currentammovalue=7
+	currentreloadrate=2000
+	hotkey1weapon=2
+	hotkey5weapon=5
+	machinegunmode=1
+	hotkey1rostermode=5 ; 0 - disabled, 5 - 5 weaps 9 - 9 weaps
+	
+	; weaponlist
+	;0 - unuswitchable item(medkit)
+	;1 - not gun
+	;2 - m4
+	;3 - p250
+	;4 - beretta
+	;5 - mp5
+	;6 - shotgun
+	;7 - revolver
+	;8 - bolt
+	;9 - pipe
+	
+;===============================================================================================
+;===============================================================================================
+;func
+;===============================================================================================
+;===============================================================================================
 
 
+;===============================================================================================
+;weaponsettings      
+;===============================================================================================
 
+beretta()
+	{
+		global 
+		itisnotweapon=0
+		currentantirecoil=140
+		currentantirecoilzoomed=240
+		currentfirerate=40
+		currentammovalue=11
+		currentreloadrate=2000
+		SplashTextOn, ,  , beretta
+		sleep 150
+		SplashTextOff
+		return
+	}
+;===============================================================================================	
+mp5()
+	{
+		global 
+		itisnotweapon=0
+		currentantirecoil=75
+		currentantirecoilzoomed=100
+		currentfirerate=130
+		currentammovalue=29
+		currentreloadrate=3000
+		SplashTextOn, ,  , mp5
+		sleep 150
+		SplashTextOff
+		return
+	}
+;===============================================================================================	
+m4()
+	{
+		global 
+		itisnotweapon=0
+		currentantirecoil=100
+		currentantirecoilzoomed=120
+		currentfirerate=140
+		currentammovalue=23
+		currentreloadrate=3500
+		SplashTextOn, ,  , m4
+		sleep 150
+		SplashTextOff
+		return
+	}
+;===============================================================================================
+	
+	
 
+	
+noweap()
+	{
+		global 
+		itisnotweapon=1
+		currentantirecoil=0
+		currentantirecoilzoomed=0
+		currentfirerate=10
+		currentammovalue=999
+		currentreloadrate=0
+		SplashTextOn, ,  , noweap
+		sleep 150
+		SplashTextOff
+		return
+	}		
+;===============================================================================================	
+p250()
+	{
+		global 
+		itisnotweapon=0
+		currentantirecoil=230
+		currentantirecoilzoomed=420
+		currentfirerate=40
+		currentammovalue=7
+		currentreloadrate=2000
+		SplashTextOn, ,  , p250
+		sleep 150
+		SplashTextOff
+		return
+	}	
+;===============================================================================================
+	; weaponlist
+	;0 - unuswitchable item(medkit)
+	;1 - not gun
+	;2 - m4
+	;3 - p250
+	;4 - beretta
+	;5 - mp5
+	;6 - shotgun
+	;7 - revolver
+	;8 - bolt
+	;9 - pipe
+	
+roster()
+{
+	global
+	weaproster++
+	if weaproster = 5
+	{
+		SplashTextOn, ,  , mp5
+		sleep 150
+		SplashTextOff
+		weaproster=-1
+		return	5
+	}	
+	if weaproster = 0
+	{
+		SplashTextOn, ,  , medkit
+		sleep 150
+		SplashTextOff
+	}
+	if weaproster = 1
+	{
+		SplashTextOn, ,  , not gun
+		sleep 150
+		SplashTextOff
+	}
+	if weaproster = 2
+	{
+		SplashTextOn, ,  , m4
+		sleep 150
+		SplashTextOff
+	}
+	if weaproster = 3
+	{
+		SplashTextOn, ,  , p250
+		sleep 150
+		SplashTextOff
+	}
+	if weaproster = 4
+	{
+		SplashTextOn, ,  , beretta
+		sleep 150
+		SplashTextOff
+	}
+return	weaproster
+}
 ;===============================================================================================
 ;===============================================================================================
 ;3 Game binds
@@ -221,41 +396,41 @@ return
 ; В ящик 
 ;==========
 F6::
-chestcolumns=0
-chestrows=0
-c=0
-while chestcolumns<3
-{
-chestrows=0
-while chestrows<4 
-{
-if c<4
-{
-MouseClick, L, xhelmet , yhelmet+cellwidth*c , 1 , 1 , d
-Sleep clickdelay
-MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
-Sleep 10
-}
-if (c>3 and c<10)
-{
-MouseClick, L, xhelmet+225+cellwidth*(c-4) , yhelmet+400   , 1 , 1 , d
-Sleep clickdelay
-MouseClick, L,  xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
-Sleep 10
-}
-if (c>9)
-{
-MouseClick, L,xhelmet+225+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns   , 1 , 1 , d
-Sleep clickdelay
-MouseClick, L,  xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows, 1 , 1 , u
-Sleep 10
-}
-c++
-chestrows++
-}
-chestcolumns++
-}
-с=0
+	chestcolumns=0
+	chestrows=0
+	c=0
+	while chestcolumns<3
+	{
+		chestrows=0
+		while chestrows<4 
+		{
+			if c<4
+			{
+				MouseClick, L, xhelmet , yhelmet+cellwidth*c , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
+				Sleep 10
+			}
+			if (c>3 and c<10)
+			{
+				MouseClick, L, xhelmet+225+cellwidth*(c-4) , yhelmet+400   , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L,  xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
+				Sleep 10
+			}
+			if (c>9)
+			{
+				MouseClick, L,xhelmet+225+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns   , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L,  xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows, 1 , 1 , u
+				Sleep 10
+			}
+			c++
+			chestrows++
+		}
+		chestcolumns++
+	}
+	с=0
 return
 
 ;===================================================================
@@ -330,7 +505,6 @@ F8::
 ; Переключение бега
 
 ;исходный скрипт, который делает вместо кнопки идти кнопку бежать
-
 ;#IfWinActive PlayRust	
 ;MButton::
 ;    IfWinActive, PlayRust
@@ -375,6 +549,7 @@ return
 ;=================================================================
 ; ебанутая моргалка фонариком или прицелом
 ; я имею в виду, переназначение колесика мыши
+; помните что вам им еще ящики смотреть
 #IfWinActive PlayRust	
 ~*WheelUp::
  
@@ -389,7 +564,7 @@ return
     return
 
 ; антиотдача
-antirecoil=35
+
 NumpadAdd::
 antirecoil+=5
 SplashTextOn, ,  , %antirecoil%
@@ -402,12 +577,141 @@ SplashTextOn, ,  , %antirecoil%
 sleep 150
 SplashTextOff
 return
-Numpad5::
 
-DllCall("mouse_event", uint, 1, int, 0, int,antirecoil)
-Click
-
+;перезарядка
+~r::
+    hotkey%lasthotkey%reloadcounter=0
+return
+; ща буду мутить выбор оружия. ох хочется как у людей но придетса по китайски.
+; ща буду мутить выбор оружия. ох хочется как у людей но придетса по китайски.
+; ща буду мутить выбор оружия. ох хочется как у людей но придетса по китайски.
+; ща буду мутить выбор оружия. ох хочется как у людей но придетса по китайски.
+; ща буду мутить выбор оружия. ох хочется как у людей но придетса по китайски.
+;ростеры настроек горячих клавиш
+F9::
+hotkey1weapon:=roster()
+SplashTextOn, ,  , roster off %weaproster%  %hotkey1weapon%
+		sleep 150
+		SplashTextOff
 return
 
+F10::
+hotkey5weapon:=roster()
+SplashTextOn, ,  , roster off %weaproster%  %hotkey5weapon%
+		sleep 150
+		SplashTextOff
+return
+
+
+	; weaponlist
+	;0 - unuswitchable item(medkit)
+	;1 - not gun
+	;2 - m4
+	;3 - p250
+	;4 - beretta
+	;5 - mp5
+	;6 - shotgun
+	;7 - revolver
+	;8 - bolt
+	;9 - pipe
+~1::
+	lasthotkey=1
+	hotkey1reloadcounter=0
+		if hotkey1weapon = 0
+			noweap()
+		if hotkey1weapon = 1
+			noweap()
+		if hotkey1weapon = 2
+			m4()
+		if hotkey1weapon = 3
+			p250()
+		if hotkey1weapon = 4
+			beretta()
+		if hotkey1weapon = 5
+			mp5()
+return
+
+~5::
+	lasthotkey=5
+	hotkey%lasthotkey%reloadcounter=0
+		if hotkey5weapon = 0
+			noweap()
+		if hotkey5weapon = 1
+			noweap()
+		if hotkey5weapon = 2
+			m4()
+		if hotkey5weapon = 3
+			p250()
+		if hotkey5weapon = 4
+			beretta()
+		if hotkey5weapon = 5
+			mp5()
+return
+	
+	
+	
+	
+Numpad5::
+	
+
+	While (GetKeyState("Numpad5","P"))
+	{
+		GetKeyState, state, RButton
+		if state = D
+		{
+			antirecoil=%currentantirecoilzoomed%
+		}
+		else 
+		{
+			antirecoil=%currentantirecoil%  
+		}
+		DllCall("mouse_event", uint, 1, int, 0, int,antirecoil)
+		Send {Blind}{LButton}
+    	hotkey%lasthotkey%reloadcounter+=1
+		
+
+
+		if hotkey%lasthotkey%reloadcounter > %currentammovalue%
+		{
+			if machinegunmode = 1
+			{
+			Send 5
+			Sleep 1000
+			}
+			else
+			{
+			loop,5
+			{
+				Send {Insert}
+				Sleep 10
+			}
+			Sleep, %currentreloadrate%
+			hotkey%lasthotkey%reloadcounter=0
+			}
+		}
+		Sleep, %currentfirerate%
+
+	}
+return
+
+
+
+
+
+
 #IfWinActive
-                                                                                                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                          
