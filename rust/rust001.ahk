@@ -486,7 +486,7 @@ F7::
  
     Send,{Enter} 
 	Sleep, enterdelay
-    SendInput /tpa Troyan
+    SendInput /tpr Troyan
     Sleep, enterdelay
     Send,{Enter}
  
@@ -616,7 +616,7 @@ return
 	;9 - pipe
 ~1::
 	lasthotkey=1
-	hotkey1reloadcounter=0
+;	hotkey1reloadcounter=0
 		if hotkey1weapon = 0
 			noweap()
 		if hotkey1weapon = 1
@@ -633,7 +633,7 @@ return
 
 ~5::
 	lasthotkey=5
-	hotkey%lasthotkey%reloadcounter=0
+;	hotkey%lasthotkey%reloadcounter=0
 		if hotkey5weapon = 0
 			noweap()
 		if hotkey5weapon = 1
@@ -676,7 +676,20 @@ Numpad5::
 			if machinegunmode = 1
 			{
 			Send 5
-			Sleep 1000
+			lasthotkey=5
+					if hotkey5weapon = 0
+			noweap()
+		if hotkey5weapon = 1
+			noweap()
+		if hotkey5weapon = 2
+			m4()
+		if hotkey5weapon = 3
+			p250()
+		if hotkey5weapon = 4
+			beretta()
+		if hotkey5weapon = 5
+			mp5()
+			Sleep 1200
 			}
 			else
 			{
