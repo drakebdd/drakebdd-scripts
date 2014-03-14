@@ -1,8 +1,9 @@
 ﻿;drakebd-scripts-rust
-;v001
+;v002
 
 ;===============================================================================================
 
+;14.03.2014 хочу еще версию
 ;13.03.2014 прикручиваю нормальную автоотдачу
 ;08.03.2014 А я всетаки введу разделение и версии. гитхаб всетаки. и ридми напишу.
 ;07.03.2014
@@ -89,222 +90,7 @@
 ;weaponsettings      
 ;===============================================================================================
 
-beretta()
-	{
-		global 
-		itisnotweapon=0
-		currentantirecoil=140
-		currentantirecoilzoomed=240
-		currentfirerate=40
-		currentammovalue=11
-		currentreloadrate=2000
-		SplashTextOn, ,  , beretta
-		sleep 150
-		SplashTextOff
-		return
-	}
-;===============================================================================================	
-mp5()
-	{
-		global 
-		itisnotweapon=0
-		currentantirecoil=75
-		currentantirecoilzoomed=100
-		currentfirerate=130
-		currentammovalue=29
-		currentreloadrate=3000
-		SplashTextOn, ,  , mp5
-		sleep 150
-		SplashTextOff
-		return
-	}
-;===============================================================================================	
-m4()
-	{
-		global 
-		itisnotweapon=0
-		currentantirecoil=100
-		currentantirecoilzoomed=120
-		currentfirerate=140
-		currentammovalue=23
-		currentreloadrate=3500
-		SplashTextOn, ,  , m4
-		sleep 150
-		SplashTextOff
-		return
-	}
-;===============================================================================================
-	
-	
 
-	
-noweap()
-	{
-		global 
-		itisnotweapon=1
-		currentantirecoil=0
-		currentantirecoilzoomed=0
-		currentfirerate=10
-		currentammovalue=999
-		currentreloadrate=0
-		SplashTextOn, ,  , noweap
-		sleep 150
-		SplashTextOff
-		return
-	}		
-;===============================================================================================	
-p250()
-	{
-		global 
-		itisnotweapon=0
-		currentantirecoil=230
-		currentantirecoilzoomed=420
-		currentfirerate=40
-		currentammovalue=7
-		currentreloadrate=2000
-		SplashTextOn, ,  , p250
-		sleep 150
-		SplashTextOff
-		return
-	}	
-;===============================================================================================
-	; weaponlist
-	;0 - unuswitchable item(medkit)
-	;1 - not gun
-	;2 - m4
-	;3 - p250
-	;4 - beretta
-	;5 - mp5
-	;6 - shotgun
-	;7 - revolver
-	;8 - bolt
-	;9 - pipe
-	
-roster()
-{
-	global
-	weaproster++
-	if weaproster = 5
-	{
-		SplashTextOn, ,  , mp5
-		sleep 150
-		SplashTextOff
-		weaproster=-1
-		return	5
-	}	
-	if weaproster = 0
-	{
-		SplashTextOn, ,  , medkit
-		sleep 150
-		SplashTextOff
-	}
-	if weaproster = 1
-	{
-		SplashTextOn, ,  , not gun
-		sleep 150
-		SplashTextOff
-	}
-	if weaproster = 2
-	{
-		SplashTextOn, ,  , m4
-		sleep 150
-		SplashTextOff
-	}
-	if weaproster = 3
-	{
-		SplashTextOn, ,  , p250
-		sleep 150
-		SplashTextOff
-	}
-	if weaproster = 4
-	{
-		SplashTextOn, ,  , beretta
-		sleep 150
-		SplashTextOff
-	}
-return	weaproster
-}
-;===============================================================================================
-weaponnumber2weapon(weaponnumber)
-	{
-		if weaponnumber = 0
-			noweap()
-		if weaponnumber = 1
-			noweap()
-		if weaponnumber = 2
-			m4()
-		if weaponnumber = 3
-			p250()
-		if weaponnumber = 4
-			beretta()
-		if weaponnumber = 5
-			mp5()
-	return
-	}
-	
-inventory2chest(inventoryrow)
-{
-global 
-	chestcolumns=0
-	chestrows=0
-	inventorycolumn=0
-	
-	с=0
-	while chestcolumns<3
-	{
-		chestrows=0
-		while chestrows<4 
-		{
-			MouseClick, L,xhelmet+225+cellwidth*inventorycolumn , yhelmet+cellwidth*inventoryrow ,  ,  , d
-			Sleep clickdelay
-			MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows   ,  ,  , u
-			Sleep 10
-
-			inventorycolumn++
-			if inventorycolumn=6
-			{
-				inventorycolumn=0
-				inventoryrow++
-			}
-			chestrows++
-		}
-		chestcolumns++
-	}
-
-return
-}	
-
-chest2inventory(inventoryrow)
-{
-global 
-	chestcolumns=0
-	chestrows=0
-	inventorycolumn=0
-	
-	с=0
-	while chestcolumns<3
-	{
-		chestrows=0
-		while chestrows<4 
-		{
-			MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  ,  ,  , d
-			Sleep clickdelay
-			MouseClick, L, xhelmet+225+cellwidth*inventorycolumn , yhelmet+cellwidth*inventoryrow ,  ,  , u
-			Sleep 10
-
-			inventorycolumn++
-			if inventorycolumn=6
-			{
-				inventorycolumn=0
-				inventoryrow++
-			}
-			chestrows++
-		}
-		chestcolumns++
-	}
-
-return
-}
 ;===============================================================================================
 ;===============================================================================================
 ;3 Game binds
@@ -703,7 +489,222 @@ return
 #IfWinActive
 
 
+beretta()
+	{
+		global 
+		itisnotweapon=0
+		currentantirecoil=140
+		currentantirecoilzoomed=240
+		currentfirerate=40
+		currentammovalue=11
+		currentreloadrate=2000
+		SplashTextOn, ,  , beretta
+		sleep 150
+		SplashTextOff
+		return
+	}
+;===============================================================================================	
+mp5()
+	{
+		global 
+		itisnotweapon=0
+		currentantirecoil=75
+		currentantirecoilzoomed=100
+		currentfirerate=130
+		currentammovalue=29
+		currentreloadrate=3000
+		SplashTextOn, ,  , mp5
+		sleep 150
+		SplashTextOff
+		return
+	}
+;===============================================================================================	
+m4()
+	{
+		global 
+		itisnotweapon=0
+		currentantirecoil=100
+		currentantirecoilzoomed=120
+		currentfirerate=140
+		currentammovalue=23
+		currentreloadrate=3500
+		SplashTextOn, ,  , m4
+		sleep 150
+		SplashTextOff
+		return
+	}
+;===============================================================================================
+	
+	
 
+	
+noweap()
+	{
+		global 
+		itisnotweapon=1
+		currentantirecoil=0
+		currentantirecoilzoomed=0
+		currentfirerate=10
+		currentammovalue=999
+		currentreloadrate=0
+		SplashTextOn, ,  , noweap
+		sleep 150
+		SplashTextOff
+		return
+	}		
+;===============================================================================================	
+p250()
+	{
+		global 
+		itisnotweapon=0
+		currentantirecoil=230
+		currentantirecoilzoomed=420
+		currentfirerate=40
+		currentammovalue=7
+		currentreloadrate=2000
+		SplashTextOn, ,  , p250
+		sleep 150
+		SplashTextOff
+		return
+	}	
+;===============================================================================================
+	; weaponlist
+	;0 - unuswitchable item(medkit)
+	;1 - not gun
+	;2 - m4
+	;3 - p250
+	;4 - beretta
+	;5 - mp5
+	;6 - shotgun
+	;7 - revolver
+	;8 - bolt
+	;9 - pipe
+	
+roster()
+{
+	global
+	weaproster++
+	if weaproster = 5
+	{
+		SplashTextOn, ,  , mp5
+		sleep 150
+		SplashTextOff
+		weaproster=-1
+		return	5
+	}	
+	if weaproster = 0
+	{
+		SplashTextOn, ,  , medkit
+		sleep 150
+		SplashTextOff
+	}
+	if weaproster = 1
+	{
+		SplashTextOn, ,  , not gun
+		sleep 150
+		SplashTextOff
+	}
+	if weaproster = 2
+	{
+		SplashTextOn, ,  , m4
+		sleep 150
+		SplashTextOff
+	}
+	if weaproster = 3
+	{
+		SplashTextOn, ,  , p250
+		sleep 150
+		SplashTextOff
+	}
+	if weaproster = 4
+	{
+		SplashTextOn, ,  , beretta
+		sleep 150
+		SplashTextOff
+	}
+return	weaproster
+}
+;===============================================================================================
+weaponnumber2weapon(weaponnumber)
+	{
+		if weaponnumber = 0
+			noweap()
+		if weaponnumber = 1
+			noweap()
+		if weaponnumber = 2
+			m4()
+		if weaponnumber = 3
+			p250()
+		if weaponnumber = 4
+			beretta()
+		if weaponnumber = 5
+			mp5()
+	return
+	}
+	
+inventory2chest(inventoryrow)
+{
+global 
+	chestcolumns=0
+	chestrows=0
+	inventorycolumn=0
+	
+	с=0
+	while chestcolumns<3
+	{
+		chestrows=0
+		while chestrows<4 
+		{
+			MouseClick, L,xhelmet+225+cellwidth*inventorycolumn , yhelmet+cellwidth*inventoryrow ,  ,  , d
+			Sleep clickdelay
+			MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows   ,  ,  , u
+			Sleep 10
+
+			inventorycolumn++
+			if inventorycolumn=6
+			{
+				inventorycolumn=0
+				inventoryrow++
+			}
+			chestrows++
+		}
+		chestcolumns++
+	}
+
+return
+}	
+
+chest2inventory(inventoryrow)
+{
+global 
+	chestcolumns=0
+	chestrows=0
+	inventorycolumn=0
+	
+	с=0
+	while chestcolumns<3
+	{
+		chestrows=0
+		while chestrows<4 
+		{
+			MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  ,  ,  , d
+			Sleep clickdelay
+			MouseClick, L, xhelmet+225+cellwidth*inventorycolumn , yhelmet+cellwidth*inventoryrow ,  ,  , u
+			Sleep 10
+
+			inventorycolumn++
+			if inventorycolumn=6
+			{
+				inventorycolumn=0
+				inventoryrow++
+			}
+			chestrows++
+		}
+		chestcolumns++
+	}
+
+return
+}
 
 
 
