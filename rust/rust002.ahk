@@ -12,6 +12,20 @@
 
 
 
+
+Gui +E0x20 -Caption +LastFound +ToolWindow +AlwaysOnTop
+Gui, Add, Picture,+BackgroundTrans, %A_ScriptDir%\crosshair.png
+WinSet, Transparent, 20
+Gui, Color, EEAA99
+Gui +LastFound  ; Make the GUI window the last found window for use by the line below.
+WinSet, TransColor, EEAA99
+
+
+
+
+
+
+
 ;===============================================================================================
 ;1 Directives
 
@@ -24,13 +38,35 @@
 ;Settings
 	
 	xhelmet=575		;координаты шлема, зависят от разрешения
-	yhelmet=550		;замутить табличку в патче
+	yhelmet=550		
 	clickdelay=225	;задержка мыши в мс при перетаскивании 
 					;предметов. если не цепляет надо увеличить
 	enterdelay=150	;задержки консоли и чата
 	f1delay=300
 	SetDefaultMouseSpeed,0	;скорость движения мышки
-							; 0 инстант, 1 быстро, 2 медленно.
+	xtune=-9
+ytune=8
+
+						; 0 инстант, 1 быстро, 2 медленно.
+							
+	; weaponlist
+	;0 - unuswitchable item(medkit)
+	;1 - not gun
+	;2 - m4
+	;3 - p250
+	;4 - beretta
+	;5 - mp5
+	;6 - shotgun
+	;7 - revolver
+	;8 - bolt
+	;9 - pipe
+;weapon defaults
+		hotkey1weapon=0
+		hotkey2weapon=0
+		hotkey3weapon=0
+		hotkey4weapon=0
+		hotkey5weapon=0
+		hotkey6weapon=0
 
 ;Constants
 	cellwidth := 75	;ширина клеточек инвентори
@@ -54,6 +90,7 @@
 	itisnotweapon=0
 	rostermode=0
 	lasthotkey=1
+	togglecrosshairon=0
 	
 ;vars
 
@@ -62,33 +99,16 @@
 	currentfirerate=40
 	currentammovalue=7
 	currentreloadrate=2000
-	hotkey1weapon=2
-	hotkey5weapon=5
+
 	machinegunmode=1
 	hotkey1rostermode=5 ; 0 - disabled, 5 - 5 weaps 9 - 9 weaps
 	
-	; weaponlist
-	;0 - unuswitchable item(medkit)
-	;1 - not gun
-	;2 - m4
-	;3 - p250
-	;4 - beretta
-	;5 - mp5
-	;6 - shotgun
-	;7 - revolver
-	;8 - bolt
-	;9 - pipe
-	
-;===============================================================================================
-;===============================================================================================
-;func
-;===============================================================================================
-;===============================================================================================
-
-
-;===============================================================================================
-;weaponsettings      
-;===============================================================================================
+Xrust=-9 
+Yrust=-9 
+Widthrust=1938
+Heightrust=1000
+	Widthcross=100
+Heightcross=100
 
 
 ;===============================================================================================
@@ -101,6 +121,38 @@
  
 SetTitleMatchMode, 2	; Make search title in #IfWinActive more flexible
 
+!F5::
+
+if togglecrosshairon=0
+{
+
+
+
+		SplashTextOn, ,  , crosshairon
+		sleep 150
+		SplashTextOff
+;WinGetPos, Xrust, Yrust, Widthrust, Heightrust, PlayRust
+Gui Show, w100 h100 , cross
+    WinGetPos,,, Widthcross, Heightcross, cross
+    WinMove, cross,, (Widthrust/2)-(Widthcross/2)+xtune, (Heightrust/2)-(Heightcross/2)+ytune
+
+togglecrosshairon=1
+}
+else
+{
+GuiControl, Hide, cross
+togglecrosshairon=0
+SplashTextOn, ,  , crosshairoff
+		sleep 150
+		SplashTextOff
+
+}
+
+
+
+
+return
+
 ;=================================================================================
 ; 3.1 Перетаскивалки вещей из ящика(3 на 4 клеток) в инвентори(последние 2 на 6 клеток) и обратно
 ; У всех кнопок перетаскивания есть одна глобальная настройка - координаты шлема. ее нужно узнать 
@@ -109,6 +161,16 @@ SetTitleMatchMode, 2	; Make search title in #IfWinActive more flexible
 ;директива если запущен раст
 	#IfWinActive PlayRust	
 ;===========================
+
+
+
+
+
+
+F10::
+Reload
+return
+
 
 ;==========
 ; Из ящика 
@@ -149,185 +211,55 @@ return
 
 ;===================================================================
 ; Теперь для раздевания. переносится броня, 6 быстрых слотов и 2 слота из инвентори
-
 ;==========
 ; Из ящика 
 ;==========
-
 F5::
-
-	chestcolumns=0
-	chestrows=0
-	c=0
-	while chestcolumns<3
-	{
-		chestrows=0
-		while chestrows<4 
-		{
-			if c<4
-			{
-
-				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
-				Sleep clickdelay
-				MouseClick, L, xhelmet , yhelmet+cellwidth*c , 1 , 1 , u
-				Sleep 10
-			}
-			if (c>3 and c<10)
-			{
-				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
-				Sleep clickdelay
-				MouseClick, L, xhelmet+225+cellwidth*(c-4) , yhelmet+400 , 1 , 1 , u
-				Sleep 10
-			}
-			if (c>9)
-			{
-				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
-				Sleep clickdelay
-				MouseClick, L, xhelmet+225+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns , 1 , 1 , u
-				Sleep 10
-			}
-			c++
-			chestrows++
-		}
-		chestcolumns++
-	}
-	с=0
+razdevanie(0)
 return
-
-
 ;==============================================================
 ;==========
 ; В ящик 
 ;==========
 F6::
-	chestcolumns=0
-	chestrows=0
-	c=0
-	while chestcolumns<3
-	{
-		chestrows=0
-		while chestrows<4 
-		{
-			if c<4
-			{
-				MouseClick, L, xhelmet , yhelmet+cellwidth*c , 1 , 1 , d
-				Sleep clickdelay
-				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
-				Sleep 10
-			}
-			if (c>3 and c<10)
-			{
-				MouseClick, L, xhelmet+225+cellwidth*(c-4) , yhelmet+400   , 1 , 1 , d
-				Sleep clickdelay
-				MouseClick, L,  xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
-				Sleep 10
-			}
-			if (c>9)
-			{
-				MouseClick, L,xhelmet+225+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns   , 1 , 1 , d
-				Sleep clickdelay
-				MouseClick, L,  xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows, 1 , 1 , u
-				Sleep 10
-			}
-			c++
-			chestrows++
-		}
-		chestcolumns++
-	}
-	с=0
+razdevanie(1)
 return
-
 ;===================================================================
 ;3.2 А теперь чудесные клавиатурные скрипты
 ;которые настукивают то что нам настукивать лень
-
-
+	
 ;суицид
-!F11::		;спрячьте от себя подальше, для меня это альт+ф11
-    Send,{F1} 
-    SendInput suicide
-    Sleep, f1delay
-    Send,{Enter}
-	Sleep, f1delay
-	Send,{F1}
++!F1::		;спрячьте от себя подальше, для меня это шифт+альт+ф1
+consolesay("suicide")
 return
 
 F2::
-	Send,{Enter} 
-	Sleep, enterdelay
-	SendInput /location
-	Sleep, enterdelay
-	Send,{Enter}
+chatsay("/location")
 return
 
-+F2:: ; добавлю ка я на шифт шоудемедж а на альт ремув
-	Send,{Enter} 
-	Sleep, enterdelay 
-	SendInput /showdamage
-	Sleep, enterdelay
-	Send,{Enter}
-
++F2:: 
+chatsay("/history")
 return
 
 !F2::
-	Send,{Enter} 
-	Sleep, enterdelay
-	SendInput /remove
-	Sleep, enterdelay
-	Send,{Enter}
+chatsay("/remove")
 return
-; а на альтшифт шоу май демедж
-+!F2:: ; добавлю ка я на шифт шоудемедж а на альт ремув
-	Send,{Enter} 
-	Sleep, enterdelay 
-	SendInput /showmydamage
-	Sleep, enterdelay
-	Send,{Enter}
 
++!F2:: 
+chatsay("/showmydamage")
+Sleep,1000
+chatsay("/showdamage")
 return
 
 F7::
- 
-    Send,{Enter} 
-	Sleep, enterdelay
-    SendInput /tpr Troyan
-    Sleep, enterdelay
-    Send,{Enter}
- 
+chatsay("/tpr Troyan")
     return
 
 F8::
- 
-    Send,{Enter} 
-	Sleep, enterdelay
-    SendInput /tpaccept
-    Sleep, enterdelay
-    Send,{Enter}
- 
-    return
+chatsay("/tpaccept")
+ return
 ;================================================================
 ; Переключение бега
-
-;исходный скрипт, который делает вместо кнопки идти кнопку бежать
-;#IfWinActive PlayRust	
-;MButton::
-;    IfWinActive, PlayRust
-;    {
-;        SendInput, {LShift Down}
-;        SendInput, {w Down}
-;        return
-;    }
-;return
-; 
-;MButton Up::
-;    IfWinActive, PlayRust
-;    {
-;       SendInput, {LShift Up}
-;        SendInput, {w Up}
-;        return
-;    }
-;return
-
 ; нормальный скрипт, нажал и бежишь.
 ; есть проблема - чтоы его отключить надо опять нажать капс
 ; и нельзя чатиться
@@ -369,76 +301,64 @@ return
 
 ; антиотдача
 
-NumpadAdd::
-antirecoil+=5
-SplashTextOn, ,  , %antirecoil%
-sleep 150
-SplashTextOff
-return
-NumpadSub::
-antirecoil-=5
-SplashTextOn, ,  , %antirecoil%
-sleep 150
-SplashTextOff
-return
+
 
 ;перезарядка
 ~r::
     hotkey%lasthotkey%reloadcounter=0
 return
-; ща буду мутить выбор оружия. ох хочется как у людей но придетса по китайски.
-; ща буду мутить выбор оружия. ох хочется как у людей но придетса по китайски.
-; ща буду мутить выбор оружия. ох хочется как у людей но придетса по китайски.
-; ща буду мутить выбор оружия. ох хочется как у людей но придетса по китайски.
-; ща буду мутить выбор оружия. ох хочется как у людей но придетса по китайски.
+
+
 ;ростеры настроек горячих клавиш
-F9::
+!F7::
 hotkey1weapon:=roster()
-SplashTextOn, ,  , roster off %weaproster%  %hotkey1weapon%
-		sleep 150
-		SplashTextOff
 return
-
-F10::
+!F8::
+hotkey2weapon:=roster()
+return
+!F9::
+hotkey3weapon:=roster()
+return
+!F10::
+hotkey4weapon:=roster()
+return
+!F11::
 hotkey5weapon:=roster()
-SplashTextOn, ,  , roster off %weaproster%  %hotkey5weapon%
-		sleep 150
-		SplashTextOff
 return
-
-
-	; weaponlist
-	;0 - unuswitchable item(medkit)
-	;1 - not gun
-	;2 - m4
-	;3 - p250
-	;4 - beretta
-	;5 - mp5
-	;6 - shotgun
-	;7 - revolver
-	;8 - bolt
-	;9 - pipe
-
-	
+!F12::
+hotkey6weapon:=roster()
+return
+; и они сами
 ~1::
 	lasthotkey=1
-;	hotkey1reloadcounter=0
 weaponnumber2weapon(hotkey1weapon)
-
+return
+~2::
+	lasthotkey=2
+weaponnumber2weapon(hotkey2weapon)
+return
+~3::
+	lasthotkey=3
+weaponnumber2weapon(hotkey3weapon)
+return
+~4::
+	lasthotkey=4
+weaponnumber2weapon(hotkey4weapon)
 return
 
 ~5::
 	lasthotkey=5
-;	hotkey%lasthotkey%reloadcounter=0
 weaponnumber2weapon(hotkey5weapon)
+return
+~6::
+	lasthotkey=6
+weaponnumber2weapon(hotkey6weapon)
 return
 	
 	
 	
-	
+;автоматическая стрельба
 Numpad5::
-	
-
 	While (GetKeyState("Numpad5","P"))
 	{
 		GetKeyState, state, RButton
@@ -453,9 +373,6 @@ Numpad5::
 		DllCall("mouse_event", uint, 1, int, 0, int,antirecoil)
 		Send {Blind}{LButton}
     	hotkey%lasthotkey%reloadcounter+=1
-		
-
-
 		if hotkey%lasthotkey%reloadcounter > %currentammovalue%
 		{
 			if machinegunmode = 1
@@ -477,18 +394,109 @@ Numpad5::
 			}
 		}
 		Sleep, %currentfirerate%
+	}
+return
 
+^Numpad5::
+	While (GetKeyState("Numpad5","P"))
+	{
+		GetKeyState, state, RButton
+		if state = D
+		{
+			antirecoil=%currentantirecoilzoomed%
+		}
+		else 
+		{
+			antirecoil=%currentantirecoil%  
+		}
+		DllCall("mouse_event", uint, 1, int, 0, int,antirecoil)
+		Send {Blind}{LButton}
+    	hotkey%lasthotkey%reloadcounter+=1
+		if hotkey%lasthotkey%reloadcounter > %currentammovalue%
+		{
+			if machinegunmode = 1
+			{
+			Send 5
+			lasthotkey=5
+			weaponnumber2weapon(hotkey5weapon)
+			Sleep 1200
+			}
+			else
+			{
+			loop,5
+			{
+				Send {Insert}
+				Sleep 10
+			}
+			Sleep, %currentreloadrate%
+			hotkey%lasthotkey%reloadcounter=0
+			}
+		}
+		Sleep, %currentfirerate%
 	}
 return
 
 
-
+NumpadAdd::
+antirecoil+=5
+SplashTextOn, ,  , %antirecoil%
+sleep 150
+SplashTextOff
+return
+NumpadSub::
+antirecoil-=5
+SplashTextOn, ,  , %antirecoil%
+sleep 150
+SplashTextOff
+return
 
 
 
 #IfWinActive
+;===============================================================================================
+;===============================================================================================
+;===============================================================================================
+;===============================================================================================
+;===============================================================================================
+;methods
+;===============================================================================================
+;===============================================================================================
+;===============================================================================================
+;===============================================================================================
+;===============================================================================================
+
+CenterWindow(WinTitle)
+{
+    WinGetPos,,, Width, Height, %WinTitle%
+    WinMove, %WinTitle%,, (A_ScreenWidth/2)-(Width/2), (A_ScreenHeight/2)-(Height/2)
+}
 
 
+consolesay(whattosay)
+{
+global
+    Send,{F1} 
+	Sleep, f1delay
+    SendInput, %whattosay%
+    Sleep, f1delay
+    Send,{Enter}
+	Sleep, f1delay
+	Send,{F1}
+	return
+	}
+;===============================================================================================
+chatsay(whattosay)
+	{
+	global
+		Send,{Enter} 
+	Sleep, enterdelay
+	SendInput %whattosay%
+	Sleep, enterdelay
+	Send,{Enter}
+	return
+	}
+;===============================================================================================
+;===============================================================================================	
 beretta()
 	{
 		global 
@@ -551,7 +559,14 @@ noweap()
 		sleep 150
 		SplashTextOff
 		return
-	}		
+	}
+;===============================================================================================
+medkit()
+	{
+		global 
+
+		return
+	}			
 ;===============================================================================================	
 p250()
 	{
@@ -568,18 +583,7 @@ p250()
 		return
 	}	
 ;===============================================================================================
-	; weaponlist
-	;0 - unuswitchable item(medkit)
-	;1 - not gun
-	;2 - m4
-	;3 - p250
-	;4 - beretta
-	;5 - mp5
-	;6 - shotgun
-	;7 - revolver
-	;8 - bolt
-	;9 - pipe
-	
+;===============================================================================================	
 roster()
 {
 	global
@@ -628,7 +632,7 @@ return	weaproster
 weaponnumber2weapon(weaponnumber)
 	{
 		if weaponnumber = 0
-			noweap()
+			medkit()
 		if weaponnumber = 1
 			noweap()
 		if weaponnumber = 2
@@ -641,7 +645,8 @@ weaponnumber2weapon(weaponnumber)
 			mp5()
 	return
 	}
-	
+;===============================================================================================	
+;===============================================================================================
 inventory2chest(inventoryrow)
 {
 global 
@@ -673,7 +678,7 @@ global
 
 return
 }	
-
+;===============================================================================================
 chest2inventory(inventoryrow)
 {
 global 
@@ -705,9 +710,93 @@ global
 
 return
 }
+;===============================================================================================
+;===============================================================================================
+razdevanie(inchest)
+{
+global
+if inchest=0
+{
+	chestcolumns=0
+	chestrows=0
+	c=0
+	while chestcolumns<3
+	{
+		chestrows=0
+		while chestrows<4 
+		{
+			if c<4
+			{
 
-
-
+				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L, xhelmet , yhelmet+cellwidth*c , 1 , 1 , u
+				Sleep 10
+			}
+			if (c>3 and c<10)
+			{
+				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L, xhelmet+225+cellwidth*(c-4) , yhelmet+400 , 1 , 1 , u
+				Sleep 10
+			}
+			if (c>9)
+			{
+				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L, xhelmet+225+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns , 1 , 1 , u
+				Sleep 10
+			}
+			c++
+			chestrows++
+		}
+		chestcolumns++
+	}
+	с=0
+return
+}
+else
+{
+	chestcolumns=0
+	chestrows=0
+	c=0
+	while chestcolumns<3
+	{
+		chestrows=0
+		while chestrows<4 
+		{
+			if c<4
+			{
+				MouseClick, L, xhelmet , yhelmet+cellwidth*c , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L, xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
+				Sleep 10
+			}
+			if (c>3 and c<10)
+			{
+				MouseClick, L, xhelmet+225+cellwidth*(c-4) , yhelmet+400   , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L,  xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows  , 1 , 1 , u
+				Sleep 10
+			}
+			if (c>9)
+			{
+				MouseClick, L,xhelmet+225+150+cellwidth*chestrows , yhelmet+150+cellwidth*chestcolumns   , 1 , 1 , d
+				Sleep clickdelay
+				MouseClick, L,  xhelmet+675+cellwidth*chestcolumns , yhelmet+cellwidth*chestrows, 1 , 1 , u
+				Sleep 10
+			}
+			c++
+			chestrows++
+		}
+		chestcolumns++
+	}
+	с=0
+return
+}
+}
+;===============================================================================================
+;===============================================================================================
 
 
 

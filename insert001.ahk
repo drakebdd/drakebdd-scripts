@@ -150,4 +150,71 @@ return
 		Send {Home}
 	return
 ;-----------------------------------------------------------------------------------------------
-#IfWinActive                                                                                                                
+#IfWinActive    
+
+
+
+
+#IfWinActive Path of Exile    
+
+F10::
+Reload
+return
+
+F2::
+BlockInput On
+SendInput, {Enter}
+sleep, 20
+SendInput, {/}oos
+SendInput, {Enter}
+BlockInput Off
+return
+
+F3::
+BlockInput On
+SendInput, {Enter}
+sleep, 20
+SendInput, {/}remaining
+SendInput, {Enter}
+BlockInput Off
+return
+
+
+F4::
+BlockInput On
+SendInput, {Enter}
+sleep, 20
+SendInput, {/}itemlevel
+SendInput, {Enter}
+BlockInput Off
+return
+
+F5::
+BlockInput On
+SendInput, {Enter}
+SendInput, `{/}remaining
+BlockInput Off
+return
+ 
+F6::
+BlockInput On
+SendInput, {Enter}
+sleep, 20
+SendInput, {Up}
+SendInput, {Enter}
+BlockInput Off
+return
+return
+
+
+F7::
+BlockInput On
+SendInput, {Enter}
+SendInput, {/}itemlevel
+Random, rndSleepTime, 3, 8
+rndSleepTime *= 10
+Sleep, rndSleepTime
+SendInput, {Enter}
+BlockInput Off
+return
+#IfWinActive                                                                                                         
