@@ -1,24 +1,21 @@
 ﻿;drakebd-scripts-rust
-;v002
+;v003
 
 ;===============================================================================================
+
+
+;22.03.2014 выделю прицел и бегалку в отдельный файл
 ;18.03.2014 прикрутил прицел
 ;14.03.2014 хочу еще версию
 ;13.03.2014 прикручиваю нормальную автоотдачу
 ;08.03.2014 А я всетаки введу разделение и версии. гитхаб всетаки. и ридми напишу.
-;07.03.2014
-;надо бы разделить скрипты для раст и остальные. с другой стороны, больше одновременных скриптов не айс
+;07.03.2014 надо бы разделить скрипты для раст и остальные. с другой стороны, больше одновременных скриптов не айс
 
 
 
 
 
-Gui +E0x20 -Caption +LastFound +ToolWindow +AlwaysOnTop
-Gui, Add, Picture,+BackgroundTrans, %A_ScriptDir%\crosshair.png
-WinSet, Transparent, 20
-Gui, Color, EEAA99
-Gui +LastFound  ; Make the GUI window the last found window for use by the line below.
-WinSet, TransColor, EEAA99
+
 
 
 
@@ -44,8 +41,7 @@ WinSet, TransColor, EEAA99
 	enterdelay=150	;задержки консоли и чата
 	f1delay=300
 	SetDefaultMouseSpeed,0	;скорость движения мышки
-	xtune=-9
-ytune=8
+
 yoursense=0.8936728
 shootmode=1
 
@@ -124,9 +120,7 @@ Heightcross=100
  
 SetTitleMatchMode, 2	; Make search title in #IfWinActive more flexible
 
-!F5::
-togglecrosshair()
-return
+
 
 ;=================================================================================
 ; 3.1 Перетаскивалки вещей из ящика(3 на 4 клеток) в инвентори(последние 2 на 6 клеток) и обратно
@@ -232,42 +226,7 @@ chatsay("/tpaccept")
  return
 ;================================================================
 ; Переключение бега
-; нормальный скрипт, нажал и бежишь.
-; есть проблема - чтоы его отключить надо опять нажать капс
-; и нельзя чатиться
-; в том числе и консольными командами
-; это надо пофиксить.
-
-CapsLock::
-	SendInput, {LShift Down}
-	SendInput, {w Down}
-Sleep 500
-if ( WaitForAnyKey( 1000000 ) )
-{
-		SendInput, {LShift Up}
-	SendInput, {w Up}
-
-	
-}
-else
-{	
-		SendInput, {LShift Up}
-	SendInput, {w Up}
-	}
-;/if toggle1=1
-;/{
-;	/SendInput, {LShift Down}
-;	/SendInput, {w Down}
-;	/toggle1=0
-;/;}
-;/else
-;/{        /;
-;	SendInput, {LShift Up}
-;	SendInput, {w Up}
-;	toggle1=1
-;}
-return
- 
+;ушло в соседний файл
 
 ;=================================================================
 ; ебанутая моргалка фонариком или прицелом
@@ -407,32 +366,8 @@ return
 ;===============================================================================================
 ;===============================================================================================
 ;===============================================================================================
-togglecrosshair()
-{global
-if togglecrosshairon=0
 
-{
-		SplashTextOn, ,  , crosshairon
-		sleep 150
-		SplashTextOff
-WinGetPos, Xrust, Yrust, Widthrust, Heightrust, PlayRust
-Gui Show, w100 h100 , cross
-    WinGetPos,,, Widthcross, Heightcross, cross
-    WinMove, cross,, (Widthrust/2)-(Widthcross/2)+xtune, (Heightrust/2)-(Heightcross/2)+ytune
 
-togglecrosshairon=1
-}
-else
-{
-GuiControl, Hide, cross
-togglecrosshairon=0
-SplashTextOn, ,  , crosshairoff
-		sleep 150
-		SplashTextOff
-
-}
-return
-}
 
 ;===============================================================================================
 combinedshoot(shootmode)
@@ -575,22 +510,7 @@ resultmove = %tablemove%*%sensecoefficient%
 return resultmove
 }
 ;===============================================================================================
-WaitForAnyKey( p_timeout )
-{
-	start := A_TickCount
 
-	loop,
-	{
-		if ( idle > A_TimeIdlePhysical )
-			return, true
-		else if ( A_TickCount-start >= p_timeout )
-			return, false
-	
-		idle := A_TimeIdlePhysical
-
-		Sleep, 10
-	}
-}
 ;===============================================================================================
 CenterWindow(WinTitle)
 {
