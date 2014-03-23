@@ -7,6 +7,15 @@
 ;настройки - смещение прицела
 xtune=-9
 ytune=8
+;=================================================================================
+
+
+
+
+
+
+
+;прочие переменные
 Xrust=-9 
 Yrust=-9 
 Widthrust=1938
@@ -102,13 +111,16 @@ return
 ;=================================================================================
 permarun()
 {
+global
 	SendInput, {LShift Down}
 	SendInput, {w Down}
-Sleep 500
+Sleep 300
 if ( WaitForAnyKey( 1000000 ) )
 {
 		SendInput, {LShift Up}
 	SendInput, {w Up}
+start := 0
+idle := 0
 
 	
 }
@@ -116,6 +128,8 @@ else
 {	
 		SendInput, {LShift Up}
 	SendInput, {w Up}
+start := 0
+idle := 0
 	}
 
 return
