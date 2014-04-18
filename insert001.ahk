@@ -1,5 +1,15 @@
 ﻿; drakebd-scripts-insert
 ;v001
+run %A_WorkingDir%\..\..\..\Start , , Min
+run %A_WorkingDir%\..\..\..\PortableApps\ThunderbirdPortable\ThunderbirdPortable.exe , , Min
+run %A_WorkingDir%\..\..\..\PortableApps\SkypePortable\SkypePortable.exe , , Min
+run %A_WorkingDir%\..\..\..\PortableApps\qBittorrentPortable\qBittorrentPortable.exe , , Min UseErrorLevel
+if ErrorLevel = ERROR
+run %A_WorkingDir%\..\..\..\PortableApps\qBittorrentPortable\qBittorrentPortable.exe , , Min UseErrorLevel
+run %A_WorkingDir%\..\..\..\PortableApps\BitTorrentSyncPortable\BitTorrentSyncPortable.exe , , Min UseErrorLevel
+if ErrorLevel = ERROR
+run %A_WorkingDir%\..\..\..\PortableApps\BitTorrentSyncPortable\BitTorrentSyncPortable.exe , , Min UseErrorLevel
+run http://vk.com/im
 
 ;========================================================================
 
@@ -36,6 +46,7 @@ Appskey::Insert
 ; Чешская раскладка клавиатуры
 
 ; cze additional buttons (only Alt)
+
 
 
 
@@ -144,7 +155,7 @@ return
 	return
 ;-----------------------------------------------------------------------------------------------
 	WheelDown::
-		Send {chestrows}
+		Send {J}
 	return
 ;-----------------------------------------------------------------------------------------------
 	MButton::
@@ -156,12 +167,8 @@ return
 
 
 
-#IfWinActive Path of Exile    
-
-F10::
-Reload
-return
-
+#IfWinActive Path of Exile  
+  
 F2::
 BlockInput On
 SendInput, {Enter}
@@ -180,7 +187,6 @@ SendInput, {Enter}
 BlockInput Off
 return
 
-
 F4::
 BlockInput On
 SendInput, {Enter}
@@ -190,14 +196,22 @@ SendInput, {Enter}
 BlockInput Off
 return
 
-F5::
-BlockInput On
-SendInput, {Enter}
-SendInput, `{/}remaining
-BlockInput Off
+#IfWinActive  
+
+
+#IfWinActive Path of Exile  
+F10::
+Reload
 return
+
+
+
+
+
+
+
  
-F6::
+F5::
 BlockInput On
 SendInput, {Enter}
 sleep, 20
@@ -208,14 +222,4 @@ return
 return
 
 
-F7::
-BlockInput On
-SendInput, {Enter}
-SendInput, {/}itemlevel
-Random, rndSleepTime, 3, 8
-rndSleepTime *= 10
-Sleep, rndSleepTime
-SendInput, {Enter}
-BlockInput Off
-return
 #IfWinActive                                                                                                         
