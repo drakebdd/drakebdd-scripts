@@ -48,11 +48,11 @@ void loop() {
   
   
    
-Serial.println(rpm);
-//Serial.print("    ");
-//Serial.print(time);
-//Serial.print("    ");
-//Serial.println(time_last);
+Serial.print(rpm);
+Serial.print("    ");
+Serial.print(time);
+Serial.print("    ");
+Serial.println(freq);
 
   if(time > 0)
   {
