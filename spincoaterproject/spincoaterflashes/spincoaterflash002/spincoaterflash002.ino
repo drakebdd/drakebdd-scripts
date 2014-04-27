@@ -1,15 +1,21 @@
 // начало
-
+//вторая версия прошивки, с попыткой создать протокол обмена
 // глобальные переменные
 
 int fanCtrlPin = 3; // выходы на драйвер вентилятора D3
 int led = 9; //лампочка
 int light=0;//яркость лампочки
 int i=0;
+int ii=0;
 volatile float time = 0;
 volatile float time_last = 0;
 volatile int rpm_array[5] = {0,0,0,0,0};
-
+char serialinp[15]="asdf";
+String inString = "";    // string to hold input
+String lastString = "000";    // string to backup input
+String nondigitString = "";  
+String lastnondigitString = "xxx";    // string to backup input
+byte index = 0; // Index into array; where to store the character
 int freq = 40; //начальная частота
 int val=0;//обьявление переменной для считывания
 
@@ -27,11 +33,21 @@ void setup() {
   pinMode(fanCtrlPin, OUTPUT); // назначаем контакт как выход
    //Digital Pin 2 Set As An Interrupt
  attachInterrupt(0, fan_interrupt, FALLING);  
+Serial.println("\n   Power On\n");
 }
 
+
+
+
+
+
+    //=====================================================
+
+    
+    //=====================================================
 void loop() {
   i=0;
-  freq = 10;
+  
  analogWrite(fanCtrlPin, freq); 
  
   int rpm = 0;
@@ -39,21 +55,57 @@ void loop() {
   while(1){  
   
      if (Serial.available()) {
-  
-    freq = Serial.parseInt();
-  
+       
+       
+       
+    while (Serial.available() > 0) {
+    int inChar = Serial.read();
+    if (isDigit(inChar)) {
+      // convert the incoming byte to a char
+      // and add it to the string:
+      inString += (char)inChar;
+    }
+    else
+    {
+      nondigitString+= (char)inChar;
+    }
+        // if you get a newline, print the string,
+    // then the string's value:
+
+  }
+    
+    
+    
+    
+    
+    
+    freq = inString.toInt();
+    lastString=inString;
+    lastnondigitString=nondigitString;
+   inString = "";
+   nondigitString = "";
     analogWrite(fanCtrlPin, freq);
   }
-  delay(100);
+  delay(1);
   
   
-   
-Serial.println(rpm);
-//Serial.print("    ");
-//Serial.print(time);
-//Serial.print("    ");
-//Serial.println(time_last);
+Serial.print("b");  
 
+
+Serial.print(rpm);
+
+Serial.print("e");
+Serial.print(lastString);
+Serial.print("f");
+Serial.print(freq);
+Serial.print("n");
+Serial.print(lastnondigitString);
+
+Serial.println("q");
+
+ii=0;
+while (ii<5)
+{ii++;
   if(time > 0)
   {
     //5 Sample Moving Average To Smooth Out The Data
@@ -65,7 +117,8 @@ Serial.println(rpm);
     //Last 5 Average RPM Counts Eqauls....
       rpm = (rpm_array[0] + rpm_array[1] + rpm_array[2] + rpm_array[3] + rpm_array[4]) / 5;
   }
- 
+  delay(20);
+}
  }
 
 

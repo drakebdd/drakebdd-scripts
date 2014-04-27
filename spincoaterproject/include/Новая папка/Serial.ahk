@@ -100,7 +100,6 @@ Serial_Close(SERIAL_FileHandle){
 ;########################################################################
 Serial_Write(SERIAL_FileHandle, Message){
   ;Global SERIAL_FileHandle
-	OldIntegerFormat := A_FormatInteger
 
   SetFormat, Integer, DEC
 
@@ -130,8 +129,7 @@ Serial_Write(SERIAL_FileHandle, Message){
        ,"Int"  , "NULL")
   If (WF_Result <> 1 or Bytes_Sent <> Data_Length)
     MsgBox, Failed Dll WriteFile to COM Port, result=%WF_Result% `nData Length=%Data_Length% `nBytes_Sent=%Bytes_Sent%
-   	SetFormat, Integer, %OldIntegerFormat%
-
+   
     Return Bytes_Sent
 }
 
@@ -142,8 +140,6 @@ Serial_Read(SERIAL_FileHandle, Num_Bytes, byref Bytes_Received = ""){
   ;Global SERIAL_FileHandle
   ;Global SERIAL_Port
   ;Global Bytes_Received
-  	OldIntegerFormat := A_FormatInteger
-
   SetFormat, Integer, HEX
 
   ;Set the Data buffer size, prefill with 0x55 = ASCII character "U"
@@ -197,7 +193,6 @@ Serial_Read(SERIAL_FileHandle, Num_Bytes, byref Bytes_Received = ""){
 
   SetFormat, Integer, DEC
   Data := Data_HEX
-  SetFormat, Integer, %OldIntegerFormat%
 
   Return Data
 
@@ -210,8 +205,6 @@ Serial_Read_Raw(SERIAL_FileHandle, Num_Bytes, mode = "",byref Bytes_Received = "
   ;Global SERIAL_FileHandle
   ;Global SERIAL_Port
   ;Global Bytes_Received
-    	OldIntegerFormat := A_FormatInteger
-
   SetFormat, Integer, HEX
 
   ;Set the Data buffer size, prefill with 0x55 = ASCII character "U"
@@ -267,10 +260,10 @@ Serial_Read_Raw(SERIAL_FileHandle, Num_Bytes, mode = "",byref Bytes_Received = "
     Data_HEX .= Data_HEX_Temp
   }
   ;MsgBox, Read_Result=%Read_Result% `nBR=%Bytes_Received% ,`nData_HEX=%Data_HEX%
-	SetFormat, Integer, DEC
-	Data := Data_HEX
-	SetFormat, Integer, %OldIntegerFormat%
-  
+
+  SetFormat, Integer, DEC
+  Data := Data_HEX
+
   Return Data
 
 }

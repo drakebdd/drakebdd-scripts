@@ -1,4 +1,4 @@
-#include %A_ScriptDir%\include\Serial.ahk
+#include %A_ScriptDir%\Serial.ahk
 ; Arduino AHK Library
 arduino_setup(start_polling_serial=true,ping_device=true){
 	global
