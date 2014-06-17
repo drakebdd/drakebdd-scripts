@@ -16,7 +16,7 @@ String lastString = "000";    // string to backup input
 String nondigitString = "";  
 String lastnondigitString = "xxx";    // string to backup input
 byte index = 0; // Index into array; where to store the character
-int freq = 40; //начальная частота
+int freq = 255; //начальная частота
 int val=0;//обьявление переменной для считывания
 
 int sensorPin = 2; //тахометр
